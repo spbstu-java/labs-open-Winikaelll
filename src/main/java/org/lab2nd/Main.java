@@ -5,6 +5,7 @@
 
 package org.lab2nd;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -12,24 +13,26 @@ public class Main {
     public Main() {
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         MethodContainer obj = new MethodContainer();
-        Method[] var2 = obj.getClass().getDeclaredMethods();
-        int var3 = var2.length;
+        Method[] methods = obj.getClass().getDeclaredMethods();
 
-        for(int var4 = 0; var4 < var3; ++var4) {
-            Method method = var2[var4];
-            if (Modifier.isProtected(method.getModifiers()) || Modifier.isPrivate(method.getModifiers())) {
+        for (Method method : methods) {
+            if (method.getAnnotation(RepeatAnnotation.class) != null &&
+                    (Modifier.isProtected(method.getModifiers()) || Modifier.isPrivate(method.getModifiers()))) {
                 method.setAccessible(true);
                 int repeats = getRepeatCount(method);
 
-                for(int i = 0; i < repeats; ++i) {
+                for (int i = 0; i < repeats; ++i) {
                     Object[] params = createParams(method.getParameterTypes(), i);
-                    method.invoke(obj, params);
+                    try {
+                        method.invoke(obj, params);
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        System.err.println("Ошибка при вызове метода " + method.getName() + ": " + e.getMessage());
+                    }
                 }
             }
         }
-
     }
 
     private static int getRepeatCount(Method method) {
