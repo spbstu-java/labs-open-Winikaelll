@@ -10,9 +10,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class Main {
-    public Main() {
-    }
-
     public static void main(String[] args) {
         MethodContainer obj = new MethodContainer();
         Method[] methods = obj.getClass().getDeclaredMethods();
