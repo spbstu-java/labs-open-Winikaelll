@@ -36,7 +36,6 @@ public class Main {
         RepeatAnnotation annotation = (RepeatAnnotation)method.getAnnotation(RepeatAnnotation.class);
         return annotation != null ? annotation.value() : 1;
     }
-
     private static Object[] createParams(Class<?>[] paramTypes, int index) {
         Object[] params = new Object[paramTypes.length];
 
