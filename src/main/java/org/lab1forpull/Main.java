@@ -31,31 +31,55 @@ public class Main {
             System.out.println("3 - Машина");
             System.out.println("0 - Выйти");
 
-            int strategyChoice = scanner.nextInt();
+            int strategyChoice;
+            if (scanner.hasNextInt()) {
+                strategyChoice = scanner.nextInt();
+            } else {
+                System.out.println("Введено не число, выбери одно из предложенных.");
+                scanner.next();
+                continue;
+            }
 
             if (strategyChoice == 0) break;
 
             if (strategyChoice == 1) hero.setStrategy(walk);
             else if (strategyChoice == 2) hero.setStrategy(swim);
             else if (strategyChoice == 3) hero.setStrategy(road);
+            else {
+                System.out.println("Введено число не из предолеженных, выбери верное");
+                continue;
+            }
 
-            System.out.println("Выбери локацию");
-            System.out.println("1 - Точка B (100, 30)");
-            System.out.println("2 - Точка C (250, 80)");
-            System.out.println("3 - Точка D (1000, 540)");
-            System.out.println("0 - Выйти");
+            while (true) {
+                System.out.println("Выбери локацию");
+                System.out.println("1 - Точка B (100, 30)");
+                System.out.println("2 - Точка C (250, 80)");
+                System.out.println("3 - Точка D (1000, 540)");
+                System.out.println("0 - Выйти");
 
-            int pointChoice = scanner.nextInt();
+                int pointChoice;
 
-            if (pointChoice == 0) break;
+                if (scanner.hasNextInt()) {
+                    pointChoice = scanner.nextInt();
+                } else {
+                    System.out.println("Введено не число, выбери одно из предложенных.");
+                    scanner.next();
+                    continue;
+                }
 
-            if (pointChoice == 1) hero.moveTo(B);
-            else if (pointChoice == 2) hero.moveTo(C);
-            else if (pointChoice == 3) hero.moveTo(D);
+                if (pointChoice == 0) {
+                    System.out.println("Финальная позиция: " + hero.getPosition());
+                    return;
+                }
 
-            System.out.println("Текущая позиция: " + hero.getPosition());
+                if (pointChoice == 1) hero.moveTo(B);
+                else if (pointChoice == 2) hero.moveTo(C);
+                else if (pointChoice == 3) hero.moveTo(D);
+                else System.out.println("Введено число не из предолеженных, выбери верное");
+
+                System.out.println("Текущая позиция: " + hero.getPosition());
+            }
         }
-
         System.out.println("Финальная позиция: " + hero.getPosition());
         scanner.close();
     }
